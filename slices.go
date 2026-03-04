@@ -48,4 +48,18 @@ func main() {
 
 	fmt.Println(dslice[1][2])
 
+	//dynamic 2d grid
+	rows, cols := 5, 3
+	dynamicgrid := make([][]int, rows)
+	for i := range dynamicgrid {
+		dynamicgrid[i] = make([]int, cols)
+	}
+	fmt.Println(dynamicgrid)
+
+	//summary
+
+	[]T{}          ///empty slice
+	make([]int, n) //len = n
+	append(t, s)   //add s to the t
+
 }
