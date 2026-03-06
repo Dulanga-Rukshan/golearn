@@ -11,6 +11,23 @@ type Order struct {
 	Preptime    time.Duration
 }
 
+// func main() {
+// 	orders := []Order{
+// 		{TableNumber: 1, Preptime: time.Second * 2},
+// 		{TableNumber: 2, Preptime: time.Second * 3},
+// 		{TableNumber: 3, Preptime: time.Second * 4},
+// 	}
+
+// 	group01 := sync.WaitGroup{} //creating a wait group
+// 	group01.Add(len(orders))    // and saying how many routines are there, its 3 the len of orders
+
+// 	for _, order := range orders {
+// 		go processOrder(order)
+// 	}
+
+// 	group01.Wait()
+// }
+
 func main() {
 	orders := []Order{
 		{TableNumber: 1, Preptime: time.Second * 2},
@@ -18,14 +35,17 @@ func main() {
 		{TableNumber: 3, Preptime: time.Second * 4},
 	}
 
-	group01 := sync.WaitGroup{} //creating a wait group
-	group01.Add(len(orders))    // and saying how many routines are there, its 3 the len of orders
+	wg := sync.WaitGroup{}
 
 	for _, order := range orders {
-		go processOrder(order)
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			processOrder(order)
+		}()
 	}
 
-	group01.Wait()
+	wg.Wait()
 }
 
 func processOrder(order Order) {
